@@ -64,18 +64,30 @@
     <div style="margin-top:100px">
       <h2 style="font-family:var(--font-display);font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:40px">My Current <em style="color:var(--accent);font-family:var(--font-serif)">Gear</em></h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px">
-        ${[
-          {icon:'📷',name:'Sony A7C II',role:'Primary Camera'},
-          {icon:'🎙️',name:'Shure MV88+',role:'Microphone'},
-          {icon:'💡',name:'Godox SL-60W',role:'Key Light'},
-          {icon:'💻',name:'MacBook Pro M3',role:'Editing Machine'},
-          {icon:'🎬',name:'DaVinci Resolve',role:'Color Grading'},
-          {icon:'🎮',name:'DJI RS 3 Mini',role:'Gimbal'},
-        ].map(g=>`
           <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;align-items:center;gap:14px;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
-            <span style="font-size:28px">${g.icon}</span>
-            <div><div style="font-weight:600;font-size:15px">${g.name}</div><div style="font-size:12px;color:var(--text2)">${g.role}</div></div>
-          </div>`).join('')}
+            <span style="font-size:28px">📷</span>
+            <div><div style="font-weight:600;font-size:15px">Sony A7C II</div><div style="font-size:12px;color:var(--text2)">Primary Camera</div></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;align-items:center;gap:14px;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:28px">🎙️</span>
+            <div><div style="font-weight:600;font-size:15px">Shure MV88+</div><div style="font-size:12px;color:var(--text2)">Microphone</div></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;align-items:center;gap:14px;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:28px">💡</span>
+            <div><div style="font-weight:600;font-size:15px">Godox SL-60W</div><div style="font-size:12px;color:var(--text2)">Key Light</div></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;align-items:center;gap:14px;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:28px">💻</span>
+            <div><div style="font-weight:600;font-size:15px">MacBook Pro M3</div><div style="font-size:12px;color:var(--text2)">Editing Machine</div></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;align-items:center;gap:14px;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:28px">🎬</span>
+            <div><div style="font-weight:600;font-size:15px">DaVinci Resolve</div><div style="font-size:12px;color:var(--text2)">Color Grading</div></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;align-items:center;gap:14px;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:28px">🎮</span>
+            <div><div style="font-weight:600;font-size:15px">DJI RS 3 Mini</div><div style="font-size:12px;color:var(--text2)">Gimbal</div></div>
+          </div>
       </div>
     </div>
   </div>
