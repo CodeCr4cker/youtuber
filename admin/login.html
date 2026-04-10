@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login — FrameRate</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+
+<body class="admin-body">
+
+<div class="admin-login">
+  <div class="login-card">
+    <div class="login-logo">Frame<span>Rate</span></div>
+    <p>Admin Dashboard — Sign in to manage your blog.</p>
+
+    <input class="admin-input" type="email" id="loginEmail" placeholder="admin@framerate.blog"/>
+    <input class="admin-input" type="password" id="loginPassword" placeholder="Password"/>
+
+    <button class="login-btn" id="loginBtn">Sign In →</button>
+
+    <p class="login-error" id="loginError" style="display:none;"></p>
+    <p class="login-footer">← <a href="../index.html">Back to blog</a></p>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCtTvQetGMPz9Nvd-i0rQXCVMqfABHOidU",
+    authDomain: "writer-be7ff.firebaseapp.com",
+    projectId: "writer-be7ff",
+    storageBucket: "writer-be7ff.firebasestorage.app",
+    messagingSenderId: "554035511385",
+    appId: "1:554035511385:web:a8a4165874cf34c3467148"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window._auth = auth;
+  window._signIn = signInWithEmailAndPassword;
+
+  // ✅ FIXED AUTH CHECK (NO LOOP)
+  let checked = false;
+
+  onAuthStateChanged(auth, (user) => {
+    if (!checked) {
+      checked = true;
+
+      if (user) {
+        window.location.href = "dashboard.html";
+      }
+    }
+  });
+</script>
+
+<script>
+const btn = document.getElementById('loginBtn');
+const err = document.getElementById('loginError');
+
+btn.addEventListener('click', doLogin);
+
+document.getElementById('loginPassword').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') doLogin();
+});
+
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPassword').value;
+
+  if (!email || !pass) {
+    showError('Please enter email and password.');
+    return;
+  }
+
+  btn.innerHTML = '⏳ Signing in...';
+  btn.disabled = true;
+  err.style.display = 'none';
+
+  try {
+    await window._signIn(window._auth, email, pass);
+    window.location.href = "dashboard.html";
+  } catch (e) {
+    let msg = 'Login failed.';
+
+    if (e.code === 'auth/invalid-credential') msg = 'Invalid email or password.';
+    else if (e.code === 'auth/user-not-found') msg = 'User not found.';
+    else if (e.code === 'auth/wrong-password') msg = 'Wrong password.';
+    else if (e.code === 'auth/invalid-email') msg = 'Invalid email format.';
+    else msg = e.message;
+
+    showError(msg);
+  }
+
+  btn.innerHTML = 'Sign In →';
+  btn.disabled = false;
+}
+
+function showError(message) {
+  err.style.display = 'block';
+  err.textContent = message;
+}
+</script>
+
+
+</body>
+</html>
