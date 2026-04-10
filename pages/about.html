@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — FrameRate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">Frame<span>Rate</span></a>
+    <div class="nav-links"><a href="../index.html">Home</a><a href="blog.html">Blog</a><a href="about.html" class="active">About</a><a href="contact.html">Contact</a></div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu"><a href="../index.html">Home</a><a href="blog.html">Blog</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+</nav>
+
+<section class="about-section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <img class="about-img" src="https://picsum.photos/seed/creator/600/750" alt="Creator"/>
+        <div class="about-badge-float">
+          <div class="num">4.2M</div>
+          <div class="label">YouTube Views</div>
+        </div>
+      </div>
+      <div class="about-content">
+        <div class="hero-badge" style="margin-bottom:24px"><span class="badge-dot"></span>Creator & Filmmaker</div>
+        <h1>Hey, I'm <em>Alex Rivera</em></h1>
+        <p>I'm a YouTuber, filmmaker, and tech enthusiast based in Los Angeles. I've been creating content for over 6 years — and this blog is where I share everything that doesn't fit in a 10-minute video.</p>
+        <p>From detailed gear reviews and editing tutorials to travel vlogs and creative philosophy — FrameRate is my corner of the internet where ideas breathe freely.</p>
+        <p>I believe great storytelling comes from curiosity, not just equipment. Whether you're a seasoned creator or just getting started, you'll find something useful here.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px;margin-bottom:40px">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center">
+            <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--accent)">6+</div>
+            <div style="font-size:13px;color:var(--text2);margin-top:4px">Years Creating</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center">
+            <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--accent)">120+</div>
+            <div style="font-size:13px;color:var(--text2);margin-top:4px">Blog Posts</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center">
+            <div style="font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--accent)">85K</div>
+            <div style="font-size:13px;color:var(--text2);margin-top:4px">Subscribers</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <a href="blog.html" class="btn-primary">Read My Blog</a>
+          <a href="contact.html" class="btn-ghost">Get In Touch</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gear section -->
+    <div style="margin-top:100px">
+      <h2 style="font-family:var(--font-display);font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:40px">My Current <em style="color:var(--accent);font-family:var(--font-serif)">Gear</em></h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px">
+        ${[
+          {icon:'📷',name:'Sony A7C II',role:'Primary Camera'},
+          {icon:'🎙️',name:'Shure MV88+',role:'Microphone'},
+          {icon:'💡',name:'Godox SL-60W',role:'Key Light'},
+          {icon:'💻',name:'MacBook Pro M3',role:'Editing Machine'},
+          {icon:'🎬',name:'DaVinci Resolve',role:'Color Grading'},
+          {icon:'🎮',name:'DJI RS 3 Mini',role:'Gimbal'},
+        ].map(g=>`
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;align-items:center;gap:14px;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+            <span style="font-size:28px">${g.icon}</span>
+            <div><div style="font-weight:600;font-size:15px">${g.name}</div><div style="font-size:12px;color:var(--text2)">${g.role}</div></div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2025 FrameRate Blog</p>
+      <a href="../admin/login.html" class="admin-link">Admin ↗</a>
+    </div>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

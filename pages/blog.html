@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog — FrameRate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">Frame<span>Rate</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="blog.html" class="active">Blog</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html">Home</a><a href="blog.html">Blog</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<section class="blog-hero">
+  <div class="container">
+    <h1>All <em style="color:var(--accent);font-family:var(--font-serif)">Stories</em></h1>
+    <p>Deep dives, tutorials, reviews, and behind-the-scenes of the creator life.</p>
+  </div>
+</section>
+
+<section class="categories-bar">
+  <div class="container">
+    <div class="cats">
+      <button class="cat-pill active" data-cat="all">All</button>
+      <button class="cat-pill" data-cat="Tech">Tech</button>
+      <button class="cat-pill" data-cat="Tutorials">Tutorials</button>
+      <button class="cat-pill" data-cat="Vlogs">Vlogs</button>
+      <button class="cat-pill" data-cat="Reviews">Reviews</button>
+      <button class="cat-pill" data-cat="Gaming">Gaming</button>
+    </div>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search posts…" id="searchInput"/>
+    </div>
+  </div>
+</section>
+
+<div class="container" style="padding-top:48px; padding-bottom:24px;">
+  <div class="blog-grid-full" id="blogGrid">
+    <div class="card-skeleton"></div>
+    <div class="card-skeleton"></div>
+    <div class="card-skeleton"></div>
+    <div class="card-skeleton"></div>
+    <div class="card-skeleton"></div>
+    <div class="card-skeleton"></div>
+  </div>
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2025 FrameRate Blog. All rights reserved.</p>
+      <a href="../admin/login.html" class="admin-link">Admin ↗</a>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  const firebaseConfig = { apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",projectId:"YOUR_PROJECT_ID",storageBucket:"YOUR_PROJECT.appspot.com",messagingSenderId:"YOUR_SENDER_ID",appId:"YOUR_APP_ID" };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  window._db = db;
+  window._firestoreLib = { collection, query, orderBy, getDocs };
+  initBlogPage();
+</script>
+<script src="../js/main.js"></script>
+<script>
+const POSTS_PER_PAGE = 9;
+let blogPosts = [], blogPage = 1, blogCat = 'all', blogSearch = '';
+
+// Read URL cat param
+const urlCat = new URLSearchParams(location.search).get('cat');
+if (urlCat) {
+  blogCat = urlCat;
+  document.querySelectorAll('.cat-pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.cat === urlCat);
+  });
+}
+
+async function initBlogPage() {
+  try {
+    const db = window._db;
+    const { collection, query, orderBy, getDocs } = window._firestoreLib;
+    if (!db) { blogPosts = generateDemoPosts(); renderBlog(); return; }
+    const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    blogPosts = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.status !== 'draft');
+    renderBlog();
+  } catch(e) {
+    blogPosts = generateDemoPosts();
+    renderBlog();
+  }
+}
+
+function renderBlog() {
+  const filtered = blogPosts.filter(p => {
+    const cm = blogCat === 'all' || p.category === blogCat;
+    const sm = !blogSearch || p.title.toLowerCase().includes(blogSearch.toLowerCase());
+    return cm && sm;
+  });
+  const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
+  const slice = filtered.slice((blogPage - 1) * POSTS_PER_PAGE, blogPage * POSTS_PER_PAGE);
+  const grid = document.getElementById('blogGrid');
+  grid.innerHTML = slice.length
+    ? slice.map(p => buildPostCard(p)).join('')
+    : `<div class="no-posts" style="grid-column:span 3"><h3>No posts found</h3><p>Try a different search or category.</p></div>`;
+
+  // Pagination
+  const pag = document.getElementById('pagination');
+  pag.innerHTML = '';
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement('button');
+    btn.className = `page-btn ${i === blogPage ? 'active' : ''}`;
+    btn.textContent = i;
+    btn.onclick = () => { blogPage = i; renderBlog(); window.scrollTo(0, 0); };
+    pag.appendChild(btn);
+  }
+}
+
+document.querySelectorAll('.cat-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    blogCat = pill.dataset.cat;
+    blogPage = 1;
+    renderBlog();
+  });
+});
+
+document.getElementById('searchInput')?.addEventListener('input', e => {
+  blogSearch = e.target.value;
+  blogPage = 1;
+  renderBlog();
+});
+
+function buildPostCard(post) {
+  const img = post.imageUrl || `https://picsum.photos/seed/${post.id}/640/360`;
+  const date = post.createdAt?.toDate ? post.createdAt.toDate().toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}) : '';
+  const initials = (post.author||'FR').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  return `<div class="post-card" onclick="window.location='post.html?id=${post.id}'">
+    <div class="post-thumb" style="height:220px">
+      <img src="${img}" alt="${post.title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/${post.id}/640/360'"/>
+      <div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+    <div class="post-body">
+      <div class="post-meta"><span class="post-cat">${post.category||'Blog'}</span><span class="post-date">${date}</span></div>
+      <h3 class="post-title">${post.title}</h3>
+      <div class="post-author"><div class="author-av">${initials}</div><span class="author-name">${post.author||'FrameRate'}</span></div>
+    </div>
+  </div>`;
+}
+</script>
+</body>
+</html>

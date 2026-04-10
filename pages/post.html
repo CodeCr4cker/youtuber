@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post — FrameRate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">Frame<span>Rate</span></a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a><a href="blog.html">Blog</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html">Home</a><a href="blog.html">Blog</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div id="postContent" style="padding-top:var(--nav-h)">
+  <!-- Loaded dynamically -->
+  <div style="display:flex;align-items:center;justify-content:center;height:60vh">
+    <div style="text-align:center;color:var(--text2)">
+      <div style="font-size:48px;margin-bottom:16px">⏳</div>
+      <p>Loading post...</p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2025 FrameRate Blog</p>
+      <a href="blog.html">← All Posts</a>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, collection, addDoc, query, where, orderBy, getDocs, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  const firebaseConfig = { apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",projectId:"YOUR_PROJECT_ID",storageBucket:"YOUR_PROJECT.appspot.com",messagingSenderId:"YOUR_SENDER_ID",appId:"YOUR_APP_ID" };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  window._db = db;
+  window._firestoreLib = { doc, getDoc, collection, addDoc, query, where, orderBy, getDocs, updateDoc, increment };
+  loadPost();
+</script>
+<script src="../js/main.js"></script>
+<script>
+const postId = new URLSearchParams(location.search).get('id');
+let liked = false;
+
+async function loadPost() {
+  if (!postId) { document.getElementById('postContent').innerHTML = '<div class="container" style="text-align:center;padding:100px 0"><h2>Post not found</h2><a href="blog.html" class="btn-primary" style="margin-top:20px">← Back to Blog</a></div>'; return; }
+
+  try {
+    const db = window._db;
+    const { doc, getDoc } = window._firestoreLib;
+    const snap = await getDoc(doc(db, 'posts', postId));
+    if (!snap.exists()) throw new Error('not found');
+    renderPost({ id: snap.id, ...snap.data() });
+    loadComments();
+  } catch(e) {
+    const demo = generateDemoPosts().find(p => p.id === postId) || generateDemoPosts()[0];
+    renderPost(demo);
+  }
+}
+
+function renderPost(post) {
+  document.title = `${post.title} — FrameRate`;
+  const date = post.createdAt?.toDate ? post.createdAt.toDate().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : 'Recently';
+  const img = post.imageUrl || `https://picsum.photos/seed/${post.id}/1280/720`;
+  const initials = (post.author||'FR').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  const tags = post.tags || [post.category || 'Blog', 'YouTube', 'Creator'];
+
+  document.getElementById('postContent').innerHTML = `
+    <section class="post-hero-section">
+      <div class="container">
+        <a href="blog.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--text2);font-size:14px;margin-bottom:24px;transition:color 0.2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text2)'">
+          ← Back to Blog
+        </a>
+        <img class="post-hero-image" src="${img}" alt="${post.title}" onerror="this.src='https://picsum.photos/seed/${post.id}/1280/720'"/>
+        <div class="post-layout">
+          <div class="post-content-area">
+            <div class="post-header">
+              <span class="post-cat">${post.category || 'Blog'}</span>
+              <h1>${post.title}</h1>
+              <div class="post-header-meta">
+                <div class="author-av">${initials}</div>
+                <strong>${post.author || 'FrameRate'}</strong>
+                <span style="color:var(--text3)">·</span>
+                <span>${date}</span>
+                ${post.readTime ? `<span style="color:var(--text3)">·</span><span>${post.readTime} min read</span>` : ''}
+              </div>
+            </div>
+
+            <div class="post-content" id="postBody">
+              ${post.content || '<p>No content available.</p>'}
+            </div>
+
+            <div class="post-tags">
+              ${tags.map(t => `<span class="tag">#${t}</span>`).join('')}
+            </div>
+
+            <div class="post-actions">
+              <button class="action-btn" id="likeBtn" onclick="toggleLike()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                <span id="likeCount">${post.likes || 0}</span> Likes
+              </button>
+              <button class="action-btn" onclick="sharePost()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Share
+              </button>
+              ${post.youtubeId ? `
+              <button class="action-btn" onclick="scrollToVideo()">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="color:#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                Watch Video
+              </button>` : ''}
+            </div>
+
+            <!-- COMMENTS -->
+            <div class="comments-section">
+              <h3>Comments (<span id="commentCount">0</span>)</h3>
+              <div class="comment-form">
+                <h4 style="font-family:var(--font-display);font-size:16px;margin-bottom:18px">Leave a Comment</h4>
+                <div class="form-row" style="margin-bottom:16px">
+                  <div class="form-group"><label>Name</label><input type="text" id="commentName" placeholder="Your name"/></div>
+                  <div class="form-group"><label>Email</label><input type="email" id="commentEmail" placeholder="your@email.com"/></div>
+                </div>
+                <div class="form-group"><label>Comment</label><textarea id="commentText" rows="4" placeholder="Share your thoughts..."></textarea></div>
+                <button class="btn-primary" onclick="submitComment()" style="margin-top:12px;border-radius:10px;padding:12px 24px">Post Comment</button>
+              </div>
+              <div id="commentsList"></div>
+            </div>
+          </div>
+
+          <!-- SIDEBAR -->
+          <aside class="sidebar">
+            <div class="sidebar-widget">
+              <h3 class="widget-title">About the Author</h3>
+              <div style="text-align:center;padding:16px 0">
+                <div class="author-av" style="width:64px;height:64px;font-size:22px;margin:0 auto 12px">${initials}</div>
+                <div style="font-weight:600;font-size:16px;margin-bottom:8px">${post.author || 'FrameRate'}</div>
+                <div style="font-size:13px;color:var(--text2);line-height:1.6">Creator, filmmaker, and tech enthusiast sharing stories from behind the lens.</div>
+              </div>
+            </div>
+            ${post.youtubeId ? `
+            <div class="sidebar-widget">
+              <h3 class="widget-title">Featured Video</h3>
+              <div style="aspect-ratio:16/9;border-radius:10px;overflow:hidden" id="ytEmbed">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${post.youtubeId}" frameborder="0" allowfullscreen loading="lazy"></iframe>
+              </div>
+            </div>` : ''}
+            <div class="sidebar-widget social-widget">
+              <h3 class="widget-title">Find Me On</h3>
+              <div class="social-links">
+                <a href="#" class="social-link yt"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>YouTube</a>
+                <a href="#" class="social-link tw"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter/X</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+async function loadComments() {
+  try {
+    const db = window._db;
+    const { collection, query, where, orderBy, getDocs } = window._firestoreLib;
+    const q = query(collection(db, 'comments'), where('postId', '==', postId), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    const comments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderComments(comments);
+  } catch(e) { /* no comments yet */ }
+}
+
+function renderComments(comments) {
+  const el = document.getElementById('commentsList');
+  const countEl = document.getElementById('commentCount');
+  if (!el) return;
+  if (countEl) countEl.textContent = comments.length;
+  el.innerHTML = comments.length ? comments.map(c => `
+    <div class="comment-item">
+      <div class="comment-header">
+        <div class="author-av" style="width:32px;height:32px;font-size:12px">${(c.name||'A').slice(0,2).toUpperCase()}</div>
+        <span class="comment-author">${c.name || 'Anonymous'}</span>
+        <span class="comment-date">${c.createdAt?.toDate ? c.createdAt.toDate().toLocaleDateString() : ''}</span>
+      </div>
+      <p class="comment-text">${c.text}</p>
+    </div>
+  `).join('') : '<p style="color:var(--text2);font-size:14px">No comments yet. Be the first!</p>';
+}
+
+async function submitComment() {
+  const name = document.getElementById('commentName')?.value.trim();
+  const text = document.getElementById('commentText')?.value.trim();
+  if (!name || !text) { showToast('Please fill in name and comment.', 'error'); return; }
+  try {
+    const db = window._db;
+    const { collection, addDoc } = window._firestoreLib;
+    await addDoc(collection(db, 'comments'), { postId, name, text, createdAt: new Date() });
+    document.getElementById('commentName').value = '';
+    document.getElementById('commentText').value = '';
+    document.getElementById('commentEmail').value = '';
+    showToast('Comment posted!');
+    loadComments();
+  } catch(e) {
+    showToast('Comment saved locally (Firebase not connected)', 'success');
+    const mockComment = [{ name, text, createdAt: null }];
+    document.getElementById('commentsList').insertAdjacentHTML('afterbegin', `
+      <div class="comment-item">
+        <div class="comment-header">
+          <div class="author-av" style="width:32px;height:32px;font-size:12px">${name.slice(0,2).toUpperCase()}</div>
+          <span class="comment-author">${name}</span><span class="comment-date">Just now</span>
+        </div><p class="comment-text">${text}</p>
+      </div>`);
+    document.getElementById('commentName').value = '';
+    document.getElementById('commentText').value = '';
+  }
+}
+
+window.toggleLike = function() {
+  liked = !liked;
+  const btn = document.getElementById('likeBtn');
+  const count = document.getElementById('likeCount');
+  if (btn) btn.classList.toggle('liked', liked);
+  if (count) count.textContent = parseInt(count.textContent) + (liked ? 1 : -1);
+  // Update Firestore likes
+  try {
+    const { doc, updateDoc, increment } = window._firestoreLib;
+    updateDoc(doc(window._db, 'posts', postId), { likes: increment(liked ? 1 : -1) });
+  } catch(e) {}
+};
+
+window.sharePost = function() {
+  if (navigator.share) {
+    navigator.share({ title: document.title, url: location.href });
+  } else {
+    navigator.clipboard.writeText(location.href);
+    showToast('Link copied to clipboard!');
+  }
+};
+
+window.scrollToVideo = function() {
+  document.getElementById('ytEmbed')?.scrollIntoView({ behavior: 'smooth' });
+};
+
+function showToast(msg, type='success') {
+  let t = document.getElementById('globalToast');
+  if (!t) { t=document.createElement('div'); t.id='globalToast'; t.className='toast'; t.innerHTML='<span class="toast-icon"></span><span class="toast-msg"></span>'; document.body.appendChild(t); }
+  t.querySelector('.toast-icon').textContent = type==='success'?'✅':'❌';
+  t.querySelector('.toast-msg').textContent = msg;
+  t.className=`toast ${type} show`;
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+function generateDemoPosts() {
+  const cats=['Tech','Tutorials','Reviews','Vlogs','Gaming'];
+  const titles=['My Complete Camera Setup for YouTube in 2025','How I Edit Videos 3x Faster with This Workflow','Sony A7C II vs Nikon Z6 III — Real-World Comparison','A Week in Japan: Filming with Just My iPhone','Best Budget Microphones for YouTubers Under $100','DaVinci Resolve Color Grading: Cinematic Look Tutorial','Why I Switched from Adobe to Final Cut Pro','Gaming Setup Tour — Desk, Lights, and Cables','How I Grew to 100K Subscribers (Real Strategy)','The Gear I Wish I Bought First When Starting YouTube'];
+  return titles.map((title,i)=>({id:`demo-${i}`,title,content:`<p>Welcome to this blog post about <strong>${title}</strong>. This is demo content — connect Firebase to load real posts.</p><h2>Introduction</h2><p>As a creator, I spend a lot of time thinking about workflows, gear, and storytelling. In this post, I want to share everything I've learned so far.</p><p>The creative journey is never linear. You'll face challenges, plateaus, and breakthrough moments that reshape how you see your craft.</p><h2>The Core Principles</h2><p>After years of creating content, I've distilled everything down to a few key principles that guide every piece of content I make.</p><blockquote>"Great content isn't about the gear — it's about the story you tell with it."</blockquote><p>Whether you're just starting out or you've been at it for years, these principles will help you create more consistently and with more intention.</p><h2>Watch the Full Video</h2><div class="yt-embed"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe></div><p>That's a wrap on this one. If you found it helpful, share it with a fellow creator!</p>`,category:cats[i%cats.length],author:'Alex Rivera',createdAt:{toDate:()=>new Date(Date.now()-i*86400000*3)},imageUrl:`https://picsum.photos/seed/${i+10}/1280/720`,likes:Math.floor(Math.random()*200)+20,tags:[cats[i%cats.length],'YouTube','Creator'],status:'published',youtubeId:i===0?'dQw4w9WgXcQ':null}));
+}
+</script>
+</body>
+</html>
