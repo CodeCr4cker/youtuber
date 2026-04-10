@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WanderFrame — Travel Blog</title>
+  <meta name="description" content="A travel blog exploring 70+ countries, one story at a time. Real journeys, honest words, beautiful frames." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="preloader-inner">
+    <div class="globe-wrap">
+      <svg class="globe-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,122,24,0.2)" stroke-width="1"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(30,144,255,0.6)" stroke-width="1.5" stroke-dasharray="6 3" class="globe-ring-1"/>
+        <ellipse cx="60" cy="60" rx="28" ry="52" fill="none" stroke="rgba(255,122,24,0.5)" stroke-width="1.2" class="globe-ring-2"/>
+        <ellipse cx="60" cy="60" rx="52" ry="16" fill="none" stroke="rgba(0,140,140,0.6)" stroke-width="1.2" class="globe-ring-3"/>
+        <path d="M45 35 Q55 30 65 38 Q70 42 68 50 Q62 55 55 52 Q46 48 45 35Z" fill="rgba(30,144,255,0.4)"/>
+        <path d="M30 55 Q38 50 42 58 Q44 65 38 68 Q31 66 30 55Z" fill="rgba(30,144,255,0.4)"/>
+        <path d="M70 54 Q80 51 84 60 Q82 68 74 69 Q67 67 70 54Z" fill="rgba(30,144,255,0.4)"/>
+        <circle cx="60" cy="60" r="3.5" fill="rgba(255,122,24,0.9)" class="globe-dot"/>
+      </svg>
+      <div class="globe-glow"></div>
+    </div>
+    <div class="preloader-text">
+      <span class="preloader-brand">WANDERFRAME</span>
+      <span class="preloader-sub">Opening the journal…</span>
+    </div>
+    <div class="preloader-bar"><div class="preloader-fill" id="preloaderFill"></div></div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">
+      <span class="logo-icon">✦</span>
+      <span class="logo-text">WanderFrame</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#featured">Featured</a></li>
+      <li><a href="#posts">Stories</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#categories">Categories</a></li>
+      <li><a href="#photo-stories">Photos</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="t-sun">☀</span>
+        <span class="t-moon">◑</span>
+      </button>
+      <a href="#contact" class="btn-subscribe">Subscribe</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-bg">
+    <div class="hero-bg-img" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=85')"></div>
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-blob b1"></div>
+  <div class="hero-blob b2"></div>
+  <div class="hero-blob b3"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="dot-live"></span>
+      <span>70+ Countries · 200+ Stories · Est. 2018</span>
+    </div>
+    <h1 class="hero-title">
+      <span class="ht-line l1">Stories Worth</span>
+      <span class="ht-line l2">Reading Twice.</span>
+    </h1>
+    <p class="hero-sub">A travel blog about the journeys that quietly change you — written from the road, one honest story at a time.</p>
+    <div class="hero-actions">
+      <a href="#posts" class="btn-primary">
+        Read the Blog
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#about" class="btn-outline">
+        <span class="play-tri">✦</span> About Alex
+      </a>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <div class="scroll-line-anim"></div>
+    <span>Scroll</span>
+  </div>
+
+  <div class="hero-stats-bar">
+    <div class="hstat"><span class="hstat-n">70+</span><span class="hstat-l">Countries</span></div>
+    <div class="hstat-sep"></div>
+    <div class="hstat"><span class="hstat-n">200+</span><span class="hstat-l">Stories</span></div>
+    <div class="hstat-sep"></div>
+    <div class="hstat"><span class="hstat-n">6</span><span class="hstat-l">Years Writing</span></div>
+    <div class="hstat-sep"></div>
+    <div class="hstat"><span class="hstat-n">1M+</span><span class="hstat-l">Readers</span></div>
+  </div>
+</section>
+
+<!-- FEATURED POSTS -->
+<section id="featured" class="sec">
+  <div class="container">
+    <div class="sec-header">
+      <span class="sec-label">Featured</span>
+      <h2 class="sec-title">Stories That Stayed With Me</h2>
+      <p class="sec-sub">The posts readers keep coming back to. Each one a place, a moment, a truth.</p>
+    </div>
+
+    <div class="dest-grid" id="destGrid">
+      <div class="dest-card big" data-tilt>
+        <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80" alt="Kyoto Japan" loading="lazy" />
+        <div class="dc-overlay">
+          <span class="dc-badge">Asia</span>
+          <div class="dc-body">
+            <h3>Kyoto at Dawn</h3>
+            <p>What happens when you wake before the tourists do.</p>
+            <a href="#posts" class="dc-link">Read Story →</a>
+          </div>
+        </div>
+        <div class="dc-shine"></div>
+      </div>
+
+      <div class="dest-card" data-tilt>
+        <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=600&q=80" alt="Santorini Greece" loading="lazy" />
+        <div class="dc-overlay">
+          <span class="dc-badge">Europe</span>
+          <div class="dc-body"><h3>Beyond the Blue Domes</h3><p>Santorini without the Instagram crowds.</p><a href="#posts" class="dc-link">Read Story →</a></div>
+        </div><div class="dc-shine"></div>
+      </div>
+
+      <div class="dest-card" data-tilt>
+        <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=600&q=80" alt="Rajasthan India" loading="lazy" />
+        <div class="dc-overlay">
+          <span class="dc-badge">South Asia</span>
+          <div class="dc-body"><h3>The Colours of Rajasthan</h3><p>A desert kingdom best understood slowly.</p><a href="#posts" class="dc-link">Read Story →</a></div>
+        </div><div class="dc-shine"></div>
+      </div>
+
+      <div class="dest-card" data-tilt>
+        <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80" alt="Patagonia" loading="lazy" />
+        <div class="dc-overlay">
+          <span class="dc-badge">Americas</span>
+          <div class="dc-body"><h3>Alone in Patagonia</h3><p>Where the earth ends and silence begins.</p><a href="#posts" class="dc-link">Read Story →</a></div>
+        </div><div class="dc-shine"></div>
+      </div>
+
+      <div class="dest-card big" data-tilt>
+        <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800&q=80" alt="Morocco" loading="lazy" />
+        <div class="dc-overlay">
+          <span class="dc-badge">Africa</span>
+          <div class="dc-body"><h3>Lost in the Medina</h3><p>Morocco after midnight — a city that never quite sleeps.</p><a href="#posts" class="dc-link">Read Story →</a></div>
+        </div><div class="dc-shine"></div>
+      </div>
+
+      <div class="dest-card" data-tilt>
+        <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=600&q=80" alt="Maldives" loading="lazy" />
+        <div class="dc-overlay">
+          <span class="dc-badge">Indian Ocean</span>
+          <div class="dc-body"><h3>The Stillness of the Maldives</h3><p>On doing nothing, brilliantly.</p><a href="#posts" class="dc-link">Read Story →</a></div>
+        </div><div class="dc-shine"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG POSTS -->
+<section id="posts" class="sec sec-dark">
+  <div class="container">
+    <div class="sec-header">
+      <span class="sec-label">Latest Stories</span>
+      <h2 class="sec-title">From the Journal</h2>
+      <p class="sec-sub">Filter by region to explore posts by destination.</p>
+    </div>
+
+    <div class="filter-tabs" id="filterTabs">
+      <button class="ftab active" data-filter="all">All Stories</button>
+      <button class="ftab" data-filter="asia">Asia</button>
+      <button class="ftab" data-filter="europe">Europe</button>
+      <button class="ftab" data-filter="americas">Americas</button>
+      <button class="ftab" data-filter="africa">Africa</button>
+      <button class="ftab" data-filter="oceania">Oceania</button>
+    </div>
+
+    <div class="video-grid" id="videoGrid">
+
+      <article class="vid-card blog-card" data-cat="asia">
+        <div class="vid-thumb">
+          <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&q=70" alt="Kyoto Post" loading="lazy" />
+          <span class="read-tag">8 min read</span>
+        </div>
+        <div class="vid-info">
+          <span class="vid-tag">Asia · Japan</span>
+          <h3>Cherry Blossoms of Kyoto — A Timeless Spring</h3>
+          <p class="post-excerpt">I arrived with a guidebook and left with a lesson about slowness that no map could have taught me.</p>
+          <div class="vid-meta"><span>March 2024</span><a href="#" class="post-read-link">Read post →</a></div>
+        </div>
+      </article>
+
+      <article class="vid-card blog-card" data-cat="europe">
+        <div class="vid-thumb">
+          <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=600&q=70" alt="Greece Post" loading="lazy" />
+          <span class="read-tag">11 min read</span>
+        </div>
+        <div class="vid-info">
+          <span class="vid-tag">Europe · Greece</span>
+          <h3>The Greek Islands — Golden Hours &amp; Secret Coves</h3>
+          <p class="post-excerpt">The famous postcard views are real. But the real magic is in the alleys nobody photographs.</p>
+          <div class="vid-meta"><span>June 2024</span><a href="#" class="post-read-link">Read post →</a></div>
+        </div>
+      </article>
+
+      <article class="vid-card blog-card" data-cat="africa">
+        <div class="vid-thumb">
+          <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=600&q=70" alt="Morocco Post" loading="lazy" />
+          <span class="read-tag">14 min read</span>
+        </div>
+        <div class="vid-info">
+          <span class="vid-tag">Africa · Morocco</span>
+          <h3>Lost in the Medina — Morocco After Midnight</h3>
+          <p class="post-excerpt">Getting lost in Fes's medina wasn't a mistake. It was the only honest way to be there.</p>
+          <div class="vid-meta"><span>October 2023</span><a href="#" class="post-read-link">Read post →</a></div>
+        </div>
+      </article>
+
+      <article class="vid-card blog-card" data-cat="americas">
+        <div class="vid-thumb">
+          <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=70" alt="Patagonia Post" loading="lazy" />
+          <span class="read-tag">18 min read</span>
+        </div>
+        <div class="vid-info">
+          <span class="vid-tag">Americas · Patagonia</span>
+          <h3>Edge of the World — Patagonia Solo Expedition</h3>
+          <p class="post-excerpt">Three weeks alone at the end of the earth. A dispatch on solitude, wind, and what it does to you.</p>
+          <div class="vid-meta"><span>January 2024</span><a href="#" class="post-read-link">Read post →</a></div>
+        </div>
+      </article>
+
+      <article class="vid-card blog-card" data-cat="oceania">
+        <div class="vid-thumb">
+          <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=70" alt="New Zealand Post" loading="lazy" />
+          <span class="read-tag">10 min read</span>
+        </div>
+        <div class="vid-info">
+          <span class="vid-tag">Oceania · New Zealand</span>
+          <h3>New Zealand — Middle Earth is Real</h3>
+          <p class="post-excerpt">A road trip through landscapes that make you feel both tiny and completely alive.</p>
+          <div class="vid-meta"><span>August 2023</span><a href="#" class="post-read-link">Read post →</a></div>
+        </div>
+      </article>
+
+      <article class="vid-card blog-card" data-cat="asia">
+        <div class="vid-thumb">
+          <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=600&q=70" alt="India Post" loading="lazy" />
+          <span class="read-tag">13 min read</span>
+        </div>
+        <div class="vid-info">
+          <span class="vid-tag">Asia · India</span>
+          <h3>The Royal Desert — Rajasthan in Colour</h3>
+          <p class="post-excerpt">Rajasthan doesn't just show you its history. It makes you feel it in your chest.</p>
+          <div class="vid-meta"><span>February 2024</span><a href="#" class="post-read-link">Read post →</a></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="container about-wrap">
+    <div class="about-visual">
+      <div class="about-img-frame">
+        <img src="https://images.unsplash.com/photo-1502323703975-b4a4f5c3db7a?w=500&q=80" alt="Alex Rivers — Travel Writer" loading="lazy" />
+        <div class="img-deco-ring"></div>
+      </div>
+      <div class="float-tag ft1">📍 Currently: Varanasi, India</div>
+      <div class="float-tag ft2">✍️ Writing since 2018</div>
+      <div class="about-award-badge">200+ Stories Published</div>
+    </div>
+
+    <div class="about-text-col">
+      <span class="sec-label">The Writer</span>
+      <h2 class="sec-title">Hi, I'm Alex Rivers.</h2>
+      <p class="about-p">I left a corporate job in 2018 with nothing but a notebook and a one-way ticket. What started as a personal travel diary became a blog read by over a million people — honest dispatches from 70+ countries, written for anyone who has ever wanted to go somewhere but didn't know how to begin.</p>
+      <p class="about-p">I don't write tourist guides. I write about the in-between moments — the ones you never planned for, and never forget.</p>
+
+      <div class="counters-row" id="countersRow">
+        <div class="ctr-item">
+          <span class="ctr-n" data-target="70">0</span><span class="ctr-suf">+</span>
+          <span class="ctr-l">Countries</span>
+        </div>
+        <div class="ctr-item">
+          <span class="ctr-n" data-target="200">0</span><span class="ctr-suf">+</span>
+          <span class="ctr-l">Posts</span>
+        </div>
+        <div class="ctr-item">
+          <span class="ctr-n" data-target="1">0</span><span class="ctr-suf">M+</span>
+          <span class="ctr-l">Readers</span>
+        </div>
+        <div class="ctr-item">
+          <span class="ctr-n" data-target="6">0</span><span class="ctr-suf"></span>
+          <span class="ctr-l">Years Writing</span>
+        </div>
+      </div>
+
+      <div class="about-socials">
+        <a href="#" class="soc-btn ig">Instagram</a>
+        <a href="#" class="soc-btn tw">Twitter / X</a>
+        <a href="#contact" class="soc-btn yt">Newsletter</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG CATEGORIES -->
+<section id="categories" class="sec sec-dark">
+  <div class="container">
+    <div class="sec-header">
+      <span class="sec-label">Explore by Theme</span>
+      <h2 class="sec-title">Find Your Kind of Story</h2>
+      <p class="sec-sub">Every journey is different. Here's how mine are organized.</p>
+    </div>
+
+    <div class="tl-wrap" id="tlWrap">
+      <div class="tl-line"><div class="tl-line-fill" id="tlFill"></div></div>
+
+      <div class="tl-item tl-l" data-aos>
+        <div class="tl-card">
+          <span class="tl-yr">SLOW TRAVEL</span>
+          <h3>Staying Long, Rushing Nowhere</h3>
+          <p>Posts about living in a place rather than passing through it. Month-long stays, local rhythms, rented apartments with bad wifi.</p>
+          <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=65" alt="Slow Travel" loading="lazy" />
+          <div class="tl-chips"><span>📝 34 Stories</span><span>⭐ Most Popular</span></div>
+        </div>
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+      </div>
+
+      <div class="tl-item tl-r" data-aos>
+        <div class="tl-card">
+          <span class="tl-yr">SOLO JOURNEYS</span>
+          <h3>One Passport, No Plans</h3>
+          <p>The raw, honest writing from trips taken alone — solo treks, border crossings by bus, and nights spent wondering what comes next.</p>
+          <img src="https://images.unsplash.com/photo-1539020140153-e479b8e01e95?w=400&q=65" alt="Solo Travel" loading="lazy" />
+          <div class="tl-chips"><span>📝 48 Stories</span><span>⭐ Reader Favourite</span></div>
+        </div>
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+      </div>
+
+      <div class="tl-item tl-l" data-aos>
+        <div class="tl-card">
+          <span class="tl-yr">CULTURE &amp; FOOD</span>
+          <h3>Eating My Way Around the World</h3>
+          <p>Street food stalls at midnight, grandmother's kitchens, and the unexpected meals that turned into hours-long conversations.</p>
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=65" alt="Food Travel" loading="lazy" />
+          <div class="tl-chips"><span>📝 52 Stories</span><span>⭐ New Posts Weekly</span></div>
+        </div>
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+      </div>
+
+      <div class="tl-item tl-r" data-aos>
+        <div class="tl-card">
+          <span class="tl-yr">WILD PLACES</span>
+          <h3>Into the Landscape</h3>
+          <p>Mountains, deserts, jungles, coastlines. The writing that comes from places where nature still has the upper hand.</p>
+          <img src="https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?w=400&q=65" alt="Wild Places" loading="lazy" />
+          <div class="tl-chips"><span>📝 39 Stories</span><span>⭐ Long Reads</span></div>
+        </div>
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+      </div>
+
+      <div class="tl-item tl-l" data-aos>
+        <div class="tl-card">
+          <span class="tl-yr">TRAVEL CRAFT</span>
+          <h3>How I Actually Travel</h3>
+          <p>Practical posts on packing, budgeting, slow routes, and the tools I use. No fluff — just what actually works after six years on the road.</p>
+          <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=400&q=65" alt="Travel Tips" loading="lazy" />
+          <div class="tl-chips"><span>📝 27 Stories</span><span>⭐ Always Updated</span></div>
+        </div>
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+      </div>
+
+      <div class="tl-item tl-r" data-aos>
+        <div class="tl-card">
+          <span class="tl-yr">REFLECTIONS</span>
+          <h3>What Travel Does to You</h3>
+          <p>The harder, quieter essays. On homesickness, on changing, on what it means to keep leaving and what you carry back.</p>
+          <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&q=65" alt="Reflections" loading="lazy" />
+          <div class="tl-chips"><span>📝 22 Stories</span><span>⭐ Personal Essays</span></div>
+        </div>
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO STORIES -->
+<section id="photo-stories" class="sec">
+  <div class="container">
+    <div class="sec-header">
+      <span class="sec-label">Photo Stories</span>
+      <h2 class="sec-title">When a Frame Tells the Story</h2>
+      <p class="sec-sub">Some moments resist words. These ones get to speak for themselves.</p>
+    </div>
+
+    <div class="masonry" id="masonry">
+      <div class="m-item" data-full="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1200&q=90" data-cap="Kyoto, Japan">
+        <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=400&q=70" alt="Kyoto" loading="lazy"/>
+        <div class="m-overlay"><span>Kyoto, Japan</span></div>
+      </div>
+      <div class="m-item" data-full="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1200&q=90" data-cap="Rajasthan, India">
+        <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&q=70" alt="Rajasthan" loading="lazy"/>
+        <div class="m-overlay"><span>Rajasthan, India</span></div>
+      </div>
+      <div class="m-item" data-full="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=1200&q=90" data-cap="Santorini, Greece">
+        <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=400&q=70" alt="Santorini" loading="lazy"/>
+        <div class="m-overlay"><span>Santorini, Greece</span></div>
+      </div>
+      <div class="m-item" data-full="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1200&q=90" data-cap="Patagonia, Argentina">
+        <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=70" alt="Patagonia" loading="lazy"/>
+        <div class="m-overlay"><span>Patagonia, Argentina</span></div>
+      </div>
+      <div class="m-item" data-full="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=1200&q=90" data-cap="Sahara, Morocco">
+        <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=400&q=70" alt="Sahara" loading="lazy"/>
+        <div class="m-overlay"><span>Sahara, Morocco</span></div>
+      </div>
+      <div class="m-item" data-full="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=1200&q=90" data-cap="Maldives">
+        <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=400&q=70" alt="Maldives" loading="lazy"/>
+        <div class="m-overlay"><span>Maldives</span></div>
+      </div>
+      <div class="m-item" data-full="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=1200&q=90" data-cap="Tokyo, Japan">
+        <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=400&q=70" alt="Tokyo" loading="lazy"/>
+        <div class="m-overlay"><span>Tokyo, Japan</span></div>
+      </div>
+      <div class="m-item" data-full="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=90" data-cap="Swiss Alps">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=70" alt="Alps" loading="lazy"/>
+        <div class="m-overlay"><span>Swiss Alps</span></div>
+      </div>
+      <div class="m-item" data-full="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1200&q=90" data-cap="Bangkok, Thailand">
+        <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=70" alt="Bangkok" loading="lazy"/>
+        <div class="m-overlay"><span>Bangkok, Thailand</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <div class="lb-bg" id="lbBg"></div>
+    <div class="lb-inner">
+      <button class="lb-close" id="lbClose">✕</button>
+      <button class="lb-nav lb-prev" id="lbPrev">&#8249;</button>
+      <img src="" alt="" class="lb-img" id="lbImg" />
+      <button class="lb-nav lb-next" id="lbNext">&#8250;</button>
+      <p class="lb-cap" id="lbCap"></p>
+    </div>
+  </div>
+</section>
+
+<!-- READER COMMENTS -->
+<section id="testimonials" class="sec sec-dark">
+  <div class="container">
+    <div class="sec-header">
+      <span class="sec-label">Reader Letters</span>
+      <h2 class="sec-title">Words From the WanderFrame Community</h2>
+    </div>
+
+    <div class="swiper testi-swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p>Alex's Morocco post made me book a flight the next day. Three weeks later I was in the Sahara. I've never read a blog post that hit me so hard.</p>
+          <div class="testi-author">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=70" alt="Sarah M." loading="lazy"/>
+            <div><strong>Sarah M.</strong><span>London, UK · Reader since 2020</span></div>
+          </div>
+          <div class="testi-stars">★★★★★</div>
+        </div></div>
+
+        <div class="swiper-slide"><div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p>I teach travel writing and WanderFrame is the first blog I recommend. It's the rare kind of writing that puts you somewhere without telling you how to feel about it.</p>
+          <div class="testi-author">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=70" alt="Carlos V." loading="lazy"/>
+            <div><strong>Carlos V.</strong><span>Barcelona · Travel Writing Tutor</span></div>
+          </div>
+          <div class="testi-stars">★★★★★</div>
+        </div></div>
+
+        <div class="swiper-slide"><div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p>Been reading from day one. This isn't travel content — it's the closest thing to therapy I've found on the internet. Every post resets something in me.</p>
+          <div class="testi-author">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&q=70" alt="Priya K." loading="lazy"/>
+            <div><strong>Priya K.</strong><span>Mumbai, India · Reader since 2018</span></div>
+          </div>
+          <div class="testi-stars">★★★★★</div>
+        </div></div>
+
+        <div class="swiper-slide"><div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p>The Patagonia essay convinced me to do a solo trek I'd dreamed of for a decade. I can honestly say that one blog post changed my life.</p>
+          <div class="testi-author">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=70" alt="James T." loading="lazy"/>
+            <div><strong>James T.</strong><span>Toronto, Canada · Hiker &amp; Reader</span></div>
+          </div>
+          <div class="testi-stars">★★★★★</div>
+        </div></div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="sec">
+  <div class="container contact-wrap">
+    <div class="contact-info">
+      <span class="sec-label">Get in Touch</span>
+      <h2 class="sec-title">Let's Connect.</h2>
+      <p>Questions, collaborations, or just a message from a fellow wanderer — I read every email and reply to most of them.</p>
+      <div class="c-details">
+        <div class="c-row"><span>✉</span><span>hello@wanderframe.blog</span></div>
+        <div class="c-row"><span>📍</span><span>Currently: Varanasi, India</span></div>
+        <div class="c-row"><span>⏱</span><span>Reply within 48 hours</span></div>
+      </div>
+      <div class="c-socials">
+        <a href="#" class="c-soc">Twitter</a>
+        <a href="#" class="c-soc">Instagram</a>
+        <a href="#" class="c-soc">Newsletter</a>
+      </div>
+    </div>
+
+    <div class="contact-form-glass">
+      <div id="formMsg" class="form-msg hidden"></div>
+      <div class="fg">
+        <label>Your Name</label>
+        <input type="text" id="fName" placeholder="Alex Doe" autocomplete="name"/>
+        <span class="ferr" id="fNameErr"></span>
+      </div>
+      <div class="fg">
+        <label>Email Address</label>
+        <input type="email" id="fEmail" placeholder="you@email.com" autocomplete="email"/>
+        <span class="ferr" id="fEmailErr"></span>
+      </div>
+      <div class="fg">
+        <label>Topic</label>
+        <select id="fSubj">
+          <option value="">Select a topic…</option>
+          <option value="collab">Blog Collaboration</option>
+          <option value="press">Press / Media</option>
+          <option value="subscribe">Newsletter Subscribe</option>
+          <option value="fan">Reader Message</option>
+          <option value="other">Other</option>
+        </select>
+        <span class="ferr" id="fSubjErr"></span>
+      </div>
+      <div class="fg">
+        <label>Message</label>
+        <textarea id="fMsg" rows="5" placeholder="Tell me something wonderful…"></textarea>
+        <span class="ferr" id="fMsgErr"></span>
+      </div>
+      <button class="btn-send" id="btnSend">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="foot-logo"><span class="logo-icon">✦</span><span class="logo-text">WanderFrame</span></div>
+        <p>A travel blog written honestly, from the road.</p>
+      </div>
+      <nav class="foot-nav">
+        <a href="#featured">Featured</a>
+        <a href="#posts">Stories</a>
+        <a href="#about">About</a>
+        <a href="#categories">Categories</a>
+        <a href="#photo-stories">Photos</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="foot-nl">
+        <p>New post every Friday. No spam, ever.</p>
+        <div class="nl-row">
+          <input type="email" id="nlEmail" placeholder="your@email.com"/>
+          <button id="nlBtn">→</button>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2024 WanderFrame · All Rights Reserved</span>
+      <span>Written somewhere between sunrises</span>
+    </div>
+  </div>
+</footer>
+
+<button class="btt" id="btt" aria-label="Back to top">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
